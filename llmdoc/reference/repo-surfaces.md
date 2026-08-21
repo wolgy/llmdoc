@@ -5,14 +5,16 @@
 
 ## Stable Facts
 - `commands/init.md`: Contract for initializing or re-bootstrapping llmdoc.
+- `commands/team-init.md`: Contract for initializing or retrofitting llmdoc under a shared team baseline; asks the user for the baseline's sibling location (fail-closed, no guessing) and layers team wiring on top of the standard init contract.
 - `commands/update.md`: Contract for selecting an update mode and keeping tracked stable docs current.
+- `commands/review.md`: Contract for the two-layer change-set review — native pass plus rule-cited llmdoc/team-convention compliance pass; read-only.
 - `skills/llmdoc/SKILL.md`: Core operating skill for llmdoc projects.
-- `skills/llmdoc-init/SKILL.md` and `skills/llmdoc-update/SKILL.md`: Codex-native helper entry skills that mirror `/llmdoc:init` and `/llmdoc:update`.
+- `skills/llmdoc-init/SKILL.md`, `skills/llmdoc-team-init/SKILL.md`, `skills/llmdoc-update/SKILL.md`, and `skills/llmdoc-review/SKILL.md`: Codex-native helper entry skills that mirror `/llmdoc:init`, `/llmdoc:team-init`, `/llmdoc:update`, and `/llmdoc:review`.
 - `hooks/hooks.json`: Bundled plugin hook surface for lifecycle-aware Codex `SessionStart`.
 - `skills/llmdoc/templates/session-start.sh`: Emits cold-start, resume, and compact-reentry startup guidance plus startup-pack fingerprint and byte-budget signals.
 - `skills/llmdoc/templates/codex-hooks.json`, `skills/llmdoc/templates/compact-prompt.md`, and `skills/llmdoc/templates/stop.sh`: Installable lifecycle templates; compact-prompt and `Stop` remain opt-in.
 - `skills/llmdoc/scripts/verify-lifecycle-hooks.sh`: Verifier for matcher separation, compact no-reload behavior, and stable startup-pack fingerprinting.
-- `agents/investigator.md`, `agents/worker.md`, `agents/recorder.md`, `agents/reflector.md`: Claude-style role prompts for the internal workflow.
+- `agents/investigator.md`, `agents/worker.md`, `agents/recorder.md`: Claude-style role prompts for the internal workflow.
 - `.codex/config.toml`: Codex-wide agent fan-out and depth limits for this repository.
 - `.codex/agents/*.toml`: Project-scoped Codex custom agents.
 - `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`: Plugin metadata for Codex and Claude Code.
@@ -23,7 +25,9 @@
 - `README.md` (`Public Surface`): English user-facing contract.
 - `README.zh-CN.md` (`公开接口`): Chinese user-facing contract.
 - `commands/init.md` (`/llmdoc:init`): Init workflow source of truth.
+- `commands/team-init.md` (`/llmdoc:team-init`): Team-baseline init/retrofit source of truth.
 - `commands/update.md` (`/llmdoc:update`): Update workflow source of truth.
+- `commands/review.md` (`/llmdoc:review`): Review workflow source of truth.
 - `hooks/hooks.json` (`bundled SessionStart`): Runtime matcher and command source of truth for the plugin-shipped hook.
 - `skills/llmdoc/templates/session-start.sh` (`lifecycle payload`): Startup-pack fingerprint, byte-budget, and lifecycle-specific re-entry wording source of truth.
 - `llmdoc/architecture/update-orchestration.md` (`/llmdoc:update` design): Update mode, commit-watermark model, and knowledge-layer source of truth.

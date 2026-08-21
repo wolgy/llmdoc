@@ -80,7 +80,7 @@ case "$session_mode" in
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "LLMDOC_COMPACT_REENTRY v1. Current startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}. Continue the same task from the compacted summary. Do not reload the llmdoc skill, llmdoc/index.md, llmdoc/startup.md, MUST docs, lessons, or already-loaded task docs merely because compaction occurred. Re-read only when the summary is insufficient, the preserved fingerprint differs, a relevant file changed, a new subsystem is entered, or evidence conflicts. Prefer the smallest targeted read; a compact event alone never authorizes a full llmdoc reload. Preserve or refresh the compact LLMDOC_STATE block on the next compaction."
+    "additionalContext": "LLMDOC_COMPACT_REENTRY v1. Current startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}. Continue the same task from the compacted summary. Do not reload the llmdoc skill, llmdoc/index.md, llmdoc/startup.md, MUST docs, or already-loaded task docs merely because compaction occurred. Re-read only when the summary is insufficient, the preserved fingerprint differs, a relevant file changed, a new subsystem is entered, or evidence conflicts. Prefer the smallest targeted read; a compact event alone never authorizes a full llmdoc reload. Preserve or refresh the compact LLMDOC_STATE block on the next compaction."
   }
 }
 EOF
@@ -90,7 +90,7 @@ EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "LLMDOC_RESUME v1. Current startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}. If the resumed summary contains a usable LLMDOC_STATE with the same fingerprint, continue from it without reloading already-loaded docs. If the state is absent, stale, or insufficient, perform the cold-start read once: load the llmdoc skill, then llmdoc/index.md, llmdoc/startup.md, and its listed MUST docs. Read only task-relevant guides, reflections, and subsystem docs. ${budget_note}"
+    "additionalContext": "LLMDOC_RESUME v1. Current startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}. If the resumed summary contains a usable LLMDOC_STATE with the same fingerprint, continue from it without reloading already-loaded docs. If the state is absent, stale, or insufficient, perform the cold-start read once: load the llmdoc skill, then llmdoc/index.md, llmdoc/startup.md, and its listed MUST docs. Read only task-relevant guides and subsystem docs. ${budget_note}"
   }
 }
 EOF
@@ -100,7 +100,7 @@ EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "LLMDOC_COLD_START v1. startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}; recommended-max-bytes=${startup_budget}. Load the llmdoc skill once. Read llmdoc/index.md, then llmdoc/startup.md, then the MUST docs listed there. If llmdoc/memory/lessons-learned.md exists, read it as the archived memory summary. Read only task-relevant guides, reflections, and subsystem docs. Before non-trivial edits, align with the user. In future compaction summaries preserve a compact LLMDOC_STATE containing this fingerprint, active goal, loaded doc paths, invariants, decisions, changed files, validation status, next action, and unresolved risks; never copy full document bodies into that state. ${budget_note}"
+    "additionalContext": "LLMDOC_COLD_START v1. startup-pack-fingerprint=${startup_fingerprint}; startup-pack-bytes=${startup_bytes}; recommended-max-bytes=${startup_budget}. Load the llmdoc skill once. Read llmdoc/index.md, then llmdoc/startup.md, then the MUST docs listed there. Read only task-relevant guides and subsystem docs. Before non-trivial edits, align with the user. In future compaction summaries preserve a compact LLMDOC_STATE containing this fingerprint, active goal, loaded doc paths, invariants, decisions, changed files, validation status, next action, and unresolved risks; never copy full document bodies into that state. ${budget_note}"
   }
 }
 EOF

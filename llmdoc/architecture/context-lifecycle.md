@@ -7,7 +7,7 @@
 ## Lifecycle Modes
 - **Cold start** (`startup` or `clear`): load the llmdoc skill, then `llmdoc/index.md`, `llmdoc/startup.md`, and the MUST docs listed there exactly once for the session.
 - **Resume**: continue from a usable `LLMDOC_STATE` when its startup-pack fingerprint still matches; otherwise perform one cold-start read.
-- **Compact re-entry** (`compact`): continue the same task from the compact summary. A compact event alone never authorizes replaying the skill, startup pack, lessons, or already-loaded task docs.
+- **Compact re-entry** (`compact`): continue the same task from the compact summary. A compact event alone never authorizes replaying the skill, startup pack, or already-loaded task docs.
 
 ## Startup-Pack Contract
 - The startup pack is `llmdoc/index.md` + `llmdoc/startup.md` + files under `llmdoc/must/`.

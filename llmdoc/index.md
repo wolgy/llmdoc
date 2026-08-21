@@ -10,7 +10,7 @@
 - `architecture/`: workflow orchestration, ownership boundaries, and invariants
 - `guides/`: workflow-specific instructions for recurring maintenance tasks
 - `reference/`: stable lookup facts about repo surfaces and conventions
-- `memory/`: reflections, decisions, and known doc gaps
+- `memory/`: `doc-gaps.md` — actionable documentation gaps with closure criteria
 
 ## Key Documents
 - `llmdoc/startup.md`: ordered startup reading list
@@ -29,10 +29,10 @@
 - Read `architecture/context-lifecycle.md` and `guides/updating-lifecycle-hooks.md` before changing compact re-entry behavior, startup-pack sizing, `LLMDOC_STATE`, bundled hooks, or lifecycle verification.
 - Read `guides/updating-init-investigation-depth.md` before tuning investigation breadth or follow-up passes.
 - Read `architecture/update-orchestration.md` and `guides/updating-update-workflow.md` before changing `/llmdoc:update`, `llmdoc-update`, the commit-watermark change detection, investigator scratch behavior, or recorder update rules.
+- Read `commands/review.md` before changing `/llmdoc:review`; keep `skills/llmdoc-review/SKILL.md` mirrored.
+- Read `commands/team-init.md` before changing `/llmdoc:team-init`; keep `skills/llmdoc-team-init/SKILL.md` mirrored, and leave the base init contract in `commands/init.md`.
 - Read `reference/repo-surfaces.md` before moving or renaming public repo surfaces such as commands, agents, plugin files, or `.codex/config.toml`.
 - `llmdoc/state/sync.md` is machine-managed commit-watermark state, not knowledge: `recorder` is its sole writer; never index it here or in `startup.md`/`must/`.
 
 ## Memory
-- `llmdoc/memory/reflections/`: task-specific lessons and mistakes
-- `llmdoc/memory/decisions/`: durable design or workflow decisions
-- `llmdoc/memory/doc-gaps.md`: known weaknesses in current documentation
+- `llmdoc/memory/doc-gaps.md`: actionable documentation gaps with closure criteria — the only file under `memory/`. No narrative process memory is stored; durable rationale lives in stable-doc prose.

@@ -12,7 +12,7 @@ Then follow this protocol:
 - Read llmdoc/index.md.
 - Read llmdoc/startup.md if it exists.
 - Read the MUST docs listed there.
-- Proactively read relevant guides and reflections before broadening code search.
+- Proactively read relevant guides before broadening code search.
 - Read only task-relevant overview, architecture, and reference docs after that.
 - Investigate source code to fill gaps left by the docs.
 - Prefer file-level and symbol-level references.

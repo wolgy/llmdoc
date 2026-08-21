@@ -23,7 +23,6 @@ Read these references once at cold start, in order:
 2. `references/operating-protocol.md`
 3. `references/doc-structure.md`
 4. `references/update-and-memory.md`
-5. `references/lessons-learned.md`
 
 Then load only the specific extras you need:
 
@@ -36,12 +35,12 @@ After a context compaction, do not read this skill or its references again merel
 
 - On cold start, read `llmdoc/index.md`, then `llmdoc/startup.md`, then the MUST files it lists.
 - Treat context compaction as warm re-entry, not a new run. Do not reload the startup pack or already-loaded task docs unless state or evidence invalidates them.
-- Proactively read relevant `guides/` and `memory/reflections/` before non-trivial edits.
+- Proactively read relevant `guides/` before non-trivial edits.
 - The main assistant, not `worker`, aligns with the user before non-trivial edits.
 - At the end of a non-trivial task, the main assistant should consider prompting for `/llmdoc:update`.
 - Temporary investigation artifacts live in `.llmdoc-tmp/`, not `llmdoc/memory/`.
 - `.llmdoc-tmp/` is a local temporary context cache. It may help nearby sessions, but it is ignored by git, not indexed, and not a source of truth.
-- `recorder` owns stable docs, `memory/decisions/`, and `memory/doc-gaps.md`. `reflector` owns `memory/reflections/`.
+- `recorder` owns stable docs and `memory/doc-gaps.md` — the only file under `llmdoc/memory/`. No narrative process memory is stored; process signals are triaged into stable-doc fixes, doc-gaps, or discarded.
 
 ## Hook Support
 

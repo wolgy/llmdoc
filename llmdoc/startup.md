@@ -13,4 +13,4 @@ Escalate to more docs when:
 - updating plugin packaging or Codex integration files
 - editing workflow guidance, prompts, or stable docs
 
-Read related guides and reflections before editing when available.
+Read related guides before editing when available.

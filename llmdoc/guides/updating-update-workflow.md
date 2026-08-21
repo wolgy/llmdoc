@@ -9,10 +9,10 @@
 2. Update `skills/llmdoc-update/SKILL.md` so Codex follows the same contract, including the identical Change Detection ladder.
 3. Update `agents/investigator.md` if scratch report behavior, metadata (including `Range:`/`Watermark:`), net-diff input, or reuse rules change.
 4. Update `agents/recorder.md` if stable-doc consistency, doc-gaps reconciliation, routing rules, or the commit-watermark ownership rules change.
-5. Update `agents/reflector.md` and `agents/worker.md` when per-commit-history usage or the "recorder is the sole writer of `sync.md`/`index.md`" rule changes.
+5. Update `agents/worker.md` when the process-signal handoff or the "recorder is the sole writer of `sync.md`/`index.md`" rule changes.
 6. Update `commands/init.md` and `skills/llmdoc-init/SKILL.md` when the `llmdoc/state/sync.md` skeleton path or watermark seeding step changes.
 7. Update `skills/llmdoc/references/update-and-memory.md` and `skills/llmdoc/references/templates.md` (the `state/sync.md` template) when the watermark model or its template changes.
-8. Update `.codex/agents/*.toml` when project-scoped Codex subagent behavior changes (recorder watermark ownership, worker restrictions, reflector per-commit history, investigator net-diff input).
+8. Update `.codex/agents/*.toml` when project-scoped Codex subagent behavior changes (recorder watermark ownership, worker restrictions, investigator net-diff input).
 9. Update `README.md` and `README.zh-CN.md` so the public workflow summary matches the actual contract, including commit-watermark change detection.
 10. Update plugin manifest versions together for Claude Code and Codex when publishing a behavior change.
 
@@ -31,5 +31,5 @@
 - Documenting an intermediate state instead of the batch-tip state.
 - Indexing `llmdoc/state/sync.md` or treating it as active memory.
 - Treating `.llmdoc-tmp/` as durable project memory because reports persist locally.
-- Requiring reflection for routine updates with no process lesson.
+- Writing narrative memory files instead of triaging process signals into doc fixes, doc-gaps, or the trash.
 - Adding volatile counts or raw inventory to stable docs instead of checking them on demand.

@@ -14,10 +14,10 @@ When invoked:
 
 1. Read `llmdoc/index.md` when it exists.
 2. Read `llmdoc/startup.md` and every file it lists when it exists.
-3. Proactively read task-relevant `guides/` and `memory/reflections/` before broadening the search.
+3. Proactively read task-relevant `guides/` before broadening the search.
 4. Read the remaining task-relevant documents from `overview/`, `architecture/`, and `reference/`.
 5. Investigate source code to fill gaps left by the docs.
-6. If you enter a new subsystem, find conflicting evidence, or hit an execution failure, re-read relevant guides and reflections before expanding code search.
+6. If you enter a new subsystem, find conflicting evidence, or hit an execution failure, re-read relevant guides before expanding code search.
 7. Produce the requested output either directly in conversation or as a temporary scratch file.
 
 Key practices:

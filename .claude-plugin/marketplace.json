@@ -1,15 +1,14 @@
 {
   "name": "llmdoc-cc-plugin",
   "owner": {
-    "name": "TokenRoll",
-    "email": "shuaiqijianaho@qq.com"
+    "name": "wolgy"
   },
-  "description": "Marketplace for the llmdoc Claude Code workflow",
+  "description": "Marketplace for the llmdoc Claude Code workflow (team fork of TokenRollAI/llmdoc)",
   "plugins": [
     {
       "name": "llmdoc",
       "source": "./",
-      "description": "llmdoc workflow for Claude Code: bounded cold-start context, routed docs, init, commit-watermark updates, and use"
+      "description": "llmdoc workflow for Claude Code: bounded cold-start context, routed docs, init, team-init, commit-watermark updates, convention-compliance review, and use"
     }
   ]
 }

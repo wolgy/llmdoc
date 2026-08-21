@@ -15,7 +15,7 @@
 - `architecture/`: flows, invariants, and ownership boundaries
 - `guides/`: workflow-specific instructions
 - `reference/`: stable lookup facts and contracts
-- `memory/`: reflections, decisions, and doc gaps
+- `memory/`: `doc-gaps.md` — actionable documentation gaps
 
 ## Key Documents
 - `llmdoc/startup.md`: startup reading order
@@ -26,7 +26,6 @@
 - Read `startup.md` once for cold-start context
 - After context compaction, continue from `LLMDOC_STATE` instead of replaying the startup pack
 - Read `guides/` before editing a known workflow
-- Read `memory/reflections/` before repeating a workflow or revisiting a problematic subsystem
 ```
 
 ## `startup.md`
@@ -45,7 +44,7 @@ Escalate to more docs when:
 - changing architecture or conventions
 - updating workflows or stable docs
 
-Read related guides and reflections before editing when available.
+Read related guides before editing when available.
 
 After context compaction, continue from the preserved task state. Re-read only the smallest relevant document set when the state is stale, insufficient, or the work enters a new subsystem.
 ```
@@ -134,32 +133,52 @@ Machine-managed commit watermark. Seed at init with `watermark-commit=$(git rev-
 - `path/to/file.ext` (`SymbolName`): Why it matters.
 ```
 
-## `memory/reflections/<task>.md`
+## `memory/doc-gaps.md`
 
 ```md
-# <Task> Reflection
+# Documentation Gaps
 
-## Task
-- What was attempted.
+## Open Gaps
+- <Actionable gap>. Closure: <verifiable condition under which this entry is removed>.
+```
 
-## Expected vs Actual
-- Expected outcome.
-- Actual outcome.
+## `must/team-standards.md` (only when a team baseline is wired in)
 
-## What Went Wrong
-- Mistakes, bad assumptions, or rework.
+Prefer the baseline repository's own `templates/` when it ships one; this generic template is the fallback. Keep the `- team-baseline-path: ` line prefix exact — tooling anchors on it.
 
-## Root Cause
-- Why it happened.
+```md
+# Team Baseline Entry (fail-closed)
 
-## Missing Docs or Signals
-- What documentation or prompt signal was missing.
+- team-baseline-path: ../<team-baseline-repo>
 
-## Promotion Candidates
-- What might be promoted to `must/`, `guides/`, or `reference/`.
+## Path convention
+The team baseline repository must be cloned as a sibling of this project.
+All baseline references in this repository are relative to the project root.
 
-## Follow-up
-- Concrete next action.
+## Gate: baseline unreadable → no code changes
+Before ANY code change, verify `<team-baseline-path>/index.md` is readable. When it is not:
+- make NO code change; do not fill the gap from default habits
+- tell the user to clone the baseline repository, then retry
+- exception: read-only Q&A may continue, but must open with a "team baseline not loaded" declaration
+
+## Team must-reads
+1. <baseline doc to read every session>
+2. <baseline doc to read before writing any code>
+
+## Team ↔ project mapping
+| Topic | Team baseline | Project supplement |
+|---|---|---|
+```
+
+## `reference/team-overrides.md` (only when a team baseline is wired in)
+
+```md
+# Team Baseline Deviation Registry
+
+Every deviation from the team baseline is registered here. An unregistered deviation is a violation.
+
+| Baseline rule (file + section or ID) | This project's practice | Reason (must be a currently-true fact) | Convergence planned |
+|---|---|---|---|
 ```
 
 ## `.llmdoc-tmp/investigations/<topic>.md`

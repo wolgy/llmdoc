@@ -34,4 +34,3 @@
 ## Related Docs
 - `llmdoc/guides/updating-init-investigation-depth.md`
 - `llmdoc/reference/repo-surfaces.md`
-- `llmdoc/memory/reflections/2026-04-05-init-subagent-depth.md`

@@ -14,30 +14,29 @@ tmp_dir="$project_dir/.llmdoc-tmp/hooks"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 
 mkdir -p "$tmp_dir"
+find "$tmp_dir" -name 'stop-*.json' -mtime +7 -delete 2>/dev/null || true
 cat > "$tmp_dir/stop-$timestamp.json"
 
-active_memory_count=0
+unexpected_memory_count=0
 if [ -d "$project_dir/llmdoc/memory" ]; then
-  active_memory_count="$(
+  unexpected_memory_count="$(
     find "$project_dir/llmdoc/memory" -type f \
-      ! -path "$project_dir/llmdoc/memory/archive/*" \
-      ! -name "lessons-learned.md" \
       ! -name "doc-gaps.md" \
       | wc -l \
       | tr -d '[:space:]'
   )"
 fi
 
-if [ "$active_memory_count" -gt 5 ]; then
+if [ "$unexpected_memory_count" -gt 0 ]; then
   cat <<EOF
 {
-  "systemMessage": "Best-effort reminder: llmdoc active memory currently has ${active_memory_count} files, which exceeds the archive threshold of 5. The precise checkpoint is /llmdoc:update after any new reflection is written; then summarize recurring lessons into llmdoc/memory/lessons-learned.md and archive summarized raw memory per skills/llmdoc/references/lessons-learned.md."
+  "systemMessage": "Best-effort reminder: llmdoc/memory/ contains ${unexpected_memory_count} file(s) besides doc-gaps.md. llmdoc stores no narrative process memory; triage each into a stable-doc fix or a doc-gaps.md entry, then delete it (git history is the archive)."
 }
 EOF
 else
   cat <<'EOF'
 {
-  "systemMessage": "If this turn produced durable knowledge or useful reflections, consider asking whether to run /llmdoc:update."
+  "systemMessage": "If this turn produced durable knowledge or surfaced doc defects, consider asking whether to run /llmdoc:update."
 }
 EOF
 fi

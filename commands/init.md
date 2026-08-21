@@ -28,12 +28,11 @@ Why:
      - `llmdoc/architecture/`
      - `llmdoc/guides/`
      - `llmdoc/reference/`
-     - `llmdoc/memory/reflections/`
-     - `llmdoc/memory/decisions/`
+     - `llmdoc/memory/doc-gaps.md`
      - `llmdoc/state/sync.md`
      - `.llmdoc-tmp/investigations/`
    - Seed the commit watermark in `llmdoc/state/sync.md` (template in `skills/llmdoc/references/templates.md`): set `watermark-commit` to `$(git rev-parse HEAD)`, so the first `/llmdoc:update` has a valid anchor. Skip this in a non-git project. `llmdoc/state/sync.md` is machine-managed state, not knowledge: never index it or add it to `startup.md`/`must/`.
-
+   - When re-bootstrapping an existing tree, delete scratch reports under `.llmdoc-tmp/investigations/` that are stale by their own metadata (recorded revision missing from the repository, or reuse conditions no longer met). Git never tracked them; deletion is final and safe.
 3. Run investigation.
    - Use `investigator` for evidence gathering.
    - Default to multiple focused investigators instead of one broad investigator pass.
@@ -66,7 +65,7 @@ Why:
 
 5. Synchronize `llmdoc/index.md`.
    - In a small repository, index stable docs directly. In a monolith, index subsystem routers and let those indexes route to leaf documents.
-   - Keep `memory/reflections/` and `memory/decisions/` separate from stable docs.
+   - Keep `memory/doc-gaps.md` as the only file under `llmdoc/memory/`; store no narrative process memory.
    - Do not treat `.llmdoc-tmp/` as part of llmdoc.
 
 6. Summarize what was created and where the main startup docs live.

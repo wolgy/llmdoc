@@ -22,14 +22,14 @@
 - The mode trigger is range size × authorship × risk, not context freshness.
 - `fast`: small range (≤ ~3 commits), self-authored, impacted docs nameable. `--working-tree-only` defaults here. Use the task summary, diff, targeted checks, and any still-valid scratch reports.
 - `analysis`: ~4–15 commits, OR any non-self-authored commit, OR multiple clusters, OR a recovered/derived/first-run baseline. Run one focused investigation and persist the scratch report under `.llmdoc-tmp/investigations/`.
-- `full`: > ~15 commits, multi-batch backfill, history-rewrite recovery, disputed facts, or process learning — separate investigator, reflector, and recorder roles.
+- `full`: > ~15 commits, multi-batch backfill, history-rewrite recovery, disputed facts, or failure-heavy tasks — separate investigator and recorder roles.
 - Hard floors force ≥ `analysis`: a merge-base-recovered baseline, a derived/first-run baseline, or any non-self-authored commit. A first-run/`--since` range beyond ~20 commits or ~50 files forces `full` and explicit user confirmation.
 
 ## Invariants
 - Stable docs must not describe behavior that no longer exists in the current repository.
 - Stable docs should be smaller than the source they describe or add architectural explanation that source search does not provide quickly.
 - Investigator reports are reusable evidence, not stable memory or source of truth. A file report is reusable only when the current resolved range is a subset of the report's recorded range.
-- Reflections are written only when there is a workflow failure, repeated mistake, missing signal, or durable process lesson.
+- No narrative process memory is stored: process signals are triaged into verifiable stable-doc fixes, actionable `doc-gaps.md` entries with closure criteria, or discarded. A narrative about a past task is unfalsifiable against the repository, so it never enters `llmdoc/`.
 - `recorder` reconciles `llmdoc/memory/doc-gaps.md` during non-trivial updates.
 - `recorder` is the sole writer of `llmdoc/state/sync.md` and `llmdoc/index.md` for a run. It advances `watermark-commit` only as the terminal step of a complete, successful update that consumed a committed range, rewriting only `watermark-commit`, `watermark-subject`, and `updated-at/by`.
 - Never advance the watermark on a `--working-tree-only` run, a failed/partial run, a HEAD-behind-watermark run, or while a git operation is in progress or HEAD is detached.

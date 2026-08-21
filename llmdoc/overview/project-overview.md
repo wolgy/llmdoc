@@ -7,10 +7,10 @@
 ## Boundaries
 - The main product is workflow guidance and reusable repo-local integration artifacts.
 - This repository should keep public usage simple while moving detailed methodology into the reusable skill and llmdoc docs.
-- Temporary task investigation notes should not become stable project memory unless the lesson is likely to recur.
+- Temporary task investigation notes should not become tracked llmdoc docs unless the conclusion is durable and verifiable against the current repository.
 
 ## Major Areas
 - Public usage and installation: `README.md`, `README.zh-CN.md`, `.claude-plugin/`, `.codex-plugin/`
-- Command contracts: `commands/init.md`, `commands/update.md`
+- Command contracts: `commands/init.md`, `commands/team-init.md`, `commands/update.md`, `commands/review.md`
 - Agent behavior: `agents/*.md`, `.codex/agents/*.toml`
 - Core methodology: `skills/llmdoc/SKILL.md` and `skills/llmdoc/references/`

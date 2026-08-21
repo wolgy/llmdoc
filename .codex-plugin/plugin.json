@@ -1,27 +1,28 @@
 {
   "name": "llmdoc",
-  "version": "2.3.0",
-  "description": "Doc-driven workflow with bounded cold-start context, compact re-entry, commit-watermark updates, and reusable skills for Codex.",
+  "version": "2.3.0-team.1",
+  "description": "Doc-driven workflow with bounded cold-start context, compact re-entry, commit-watermark updates, team-baseline init, convention-compliance review, and reusable skills for Codex.",
   "author": {
     "name": "DJJ & Danniel",
     "email": "shuaiqijianaho@qq.com",
     "url": "https://github.com/TokenRollAI/llmdoc"
   },
-  "homepage": "https://github.com/TokenRollAI/llmdoc",
-  "repository": "https://github.com/TokenRollAI/llmdoc",
+  "homepage": "https://github.com/wolgy/llmdoc",
+  "repository": "https://github.com/wolgy/llmdoc",
   "skills": "./skills/",
   "interface": {
     "displayName": "llmdoc",
     "shortDescription": "Doc-driven coding workflow",
-    "longDescription": "Load a bounded startup package once, resume compacted tasks without replaying llmdoc, and use routed docs, commit-watermark updates, temporary investigation cache, and focused reflections.",
+    "longDescription": "Load a bounded startup package once, resume compacted tasks without replaying llmdoc, and use routed docs, commit-watermark updates, temporary investigation cache, and verifiable process-signal triage.",
     "developerName": "TokenRoll",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
-    "websiteURL": "https://github.com/TokenRollAI/llmdoc",
+    "websiteURL": "https://github.com/wolgy/llmdoc",
     "defaultPrompt": [
       "Load llmdoc and help me implement this task.",
       "Initialize llmdoc for this repository.",
-      "Update llmdoc after my recent changes."
+      "Update llmdoc after my recent changes.",
+      "Review my changes against the project and team conventions."
     ]
   }
 }

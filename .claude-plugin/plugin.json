@@ -1,7 +1,7 @@
 {
   "name": "llmdoc",
-  "description": "llmdoc plugin with bounded cold-start context, routed docs, init, commit-watermark updates, and use",
-  "version": "2.3.0",
+  "description": "llmdoc plugin with bounded cold-start context, routed docs, init, team-init, commit-watermark updates, convention-compliance review, and use",
+  "version": "2.3.0-team.1",
   "author": {
     "name": "DJJ & Danniel"
   }

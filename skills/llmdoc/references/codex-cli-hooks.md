@@ -48,11 +48,9 @@ Good uses:
 - append a stop-hook record into `.llmdoc-tmp/`
 - show a lightweight UI reminder after a turn ends
 - capture raw hook payloads for troubleshooting
-- remind the assistant that active memory may need archiving
+- warn when `llmdoc/memory/` contains anything besides `doc-gaps.md` (narrative memory files are not allowed)
 
 Do not expect `Stop` to replace end-of-task prompting inside the assistant. It runs at turn scope, not task scope.
-
-Do not rely on `Stop` to enforce the `lessons-learned.md` threshold exactly. `/llmdoc:update` must perform the exact active-memory count after any new reflection is written, because hook timing can miss boundary cases.
 
 ## Configuration
 

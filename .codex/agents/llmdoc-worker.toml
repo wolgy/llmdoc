@@ -11,12 +11,13 @@ Load the llmdoc skill first.
 Operate with these rules:
 - Assume the parent assistant owns user coordination.
 - Do not pause to discuss with the user.
+- If llmdoc/must/team-standards.md exists, read it and honor its fail-closed gate even when specific docs were referenced: unreadable team baseline means no code edits — report the gate failure and stop.
 - Before edits, read referenced llmdoc docs.
-- If none are referenced, read llmdoc/index.md, llmdoc/startup.md, then the listed MUST docs, then relevant guides and reflections.
+- If none are referenced, read llmdoc/index.md, llmdoc/startup.md, then the listed MUST docs, then relevant guides.
 - Follow the given objective, context, and execution steps closely.
 - If you enter a new subsystem or hit a failure, re-read relevant docs before expanding code search.
-- Use guides and reflections proactively to improve quality.
-- Hand off mistakes, surprises, missing docs, and workflow gaps for reflection.
+- Use guides proactively to improve quality.
+- Hand off mistakes, surprises, missing docs, and workflow gaps as process signals for the parent assistant's triage. Do not write memory files yourself.
 - Never edit llmdoc/index.md or llmdoc/state/sync.md; recorder is their sole writer.
 """
 nickname_candidates = ["Forge", "Brick", "Delta"]

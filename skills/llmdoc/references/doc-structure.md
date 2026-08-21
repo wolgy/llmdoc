@@ -2,14 +2,14 @@
 
 ## Model
 
-`llmdoc` separates stable knowledge, process memory, and temporary scratch space:
+`llmdoc` separates stable knowledge, pending doc-gaps, and temporary scratch space:
 
 - `must/`: recurring must-read startup docs
 - `overview/`: project or feature identity and boundaries
 - `architecture/`: ownership boundaries, flows, invariants, retrieval maps
 - `guides/`: one workflow per document
 - `reference/`: stable lookup facts, schemas, conventions, contracts
-- `memory/`: reflections, decisions, and doc gaps
+- `memory/`: `doc-gaps.md` only — actionable documentation gaps with closure criteria
 - `.llmdoc-tmp/`: local temporary context cache for scratch artifacts
 
 Why this split works:
@@ -17,6 +17,17 @@ Why this split works:
 - stable docs stay small and reusable
 - transient notes stop polluting architecture docs
 - temporary reports can go stale or disappear without contaminating long-lived docs
+
+`memory/` holds no permanent residents: every doc-gap entry either closes because the doc got fixed, or is removed as stale. Narrative process memory (per-task reflections, standalone decision records) is deliberately not stored — such narratives are unverifiable against the repository, and durable design rationale belongs in stable-doc prose as current-state facts ("X is deliberately absent because Y").
+
+## Team baseline layer
+
+A project may adopt a shared team baseline: a sibling repository of team-wide conventions, declared by `llmdoc/must/team-standards.md` through its machine-readable `- team-baseline-path: <path>` line. When a baseline is declared:
+
+- the baseline is read-only input for every llmdoc workflow — never edit it from the project side, and never treat its relative-path references as dangling
+- project llmdoc holds only project-specific facts and explicit deviations; team rules are referenced by relative path, never copied
+- `reference/team-overrides.md` registers every deviation from the baseline, each with a currently-true reason; an unregistered deviation is a violation
+- the fail-closed gate lives in `must/team-standards.md`: when the declared baseline entry is unreadable, code changes stop; read-only work continues with an explicit "team baseline not loaded" declaration
 
 ## Index responsibilities
 
@@ -53,8 +64,7 @@ The byte limit is a deterministic proxy rather than an exact model-token count. 
 
 ## Ownership
 
-- `recorder` owns `llmdoc/index.md`, `llmdoc/startup.md`, all stable docs, `memory/decisions/`, and `memory/doc-gaps.md`
-- `reflector` owns `memory/reflections/`
+- `recorder` owns `llmdoc/index.md`, `llmdoc/startup.md`, all stable docs, and `memory/doc-gaps.md`
 - temporary investigation scratch stays in `.llmdoc-tmp/`
 
 ## Splitting rules
@@ -64,7 +74,7 @@ The byte limit is a deterministic proxy rather than an exact model-token count. 
 - One ownership boundary or invariant cluster per architecture doc.
 - Put repeated startup knowledge in `must/`, not in `overview/`.
 - In monoliths, add subsystem indexes instead of growing the root index into a leaf catalog.
-- Put mistakes and raw learnings in `memory/reflections/`, then promote only recurring stable lessons.
+- Triage process signals into stable-doc fixes or `memory/doc-gaps.md` entries; never into narrative memory files.
 - Keep temporary investigation reports in `.llmdoc-tmp/`, not in `llmdoc/memory/`.
 
 ## Temporary Context Cache
@@ -82,7 +92,7 @@ Do not use it for:
 - current-state snapshots that should be trusted by future users
 - tracked project documentation
 - entries in `llmdoc/index.md`
-- durable decisions, reflections, or doc gaps
+- doc-gap entries, which belong in `memory/doc-gaps.md`
 
 Scratch reports may survive across sessions, but they are still temporary. Reuse them only after validating their recorded git revision, scope, and unresolved gaps against the current repository. If they are stale, delete or ignore them and investigate again.
 

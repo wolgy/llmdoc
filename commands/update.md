@@ -16,7 +16,7 @@ Before executing the workflow, load the `llmdoc` skill.
 Why:
 
 - the skill defines what belongs in `must/`, stable docs, and memory
-- the skill explains update modes, memory handling, and when reflection is useful
+- the skill explains update modes, memory handling, and process-signal triage
 - this command should focus on orchestration, not re-explain the whole system
 
 Invariants, design rationale, and verified git semantics: `llmdoc/architecture/update-orchestration.md`.
@@ -92,7 +92,7 @@ Choose the lightest mode that can keep the docs correct. The trigger is range si
 
 - `fast`: small range (≤ ~3 commits), self-authored, impacted docs nameable. `--working-tree-only` defaults here. Skip mandatory investigation; update stable docs from the task summary, diff, targeted checks, and any still-valid scratch reports.
 - `analysis`: ~4–15 commits, OR any non-self-authored commit, OR multiple clusters, OR a recovered/derived/first-run baseline. Use one focused `investigator` pass with `sink=file`, then `recorder`.
-- `full`: > ~15 commits, multi-batch backfill, history-rewrite recovery, disputed facts, or reflection-heavy failures. Use investigator, reflector, and recorder as separate roles.
+- `full`: > ~15 commits, multi-batch backfill, history-rewrite recovery, disputed facts, or failure-heavy tasks. Use investigator and recorder as separate roles.
 
 Hard floors (always force ≥ `analysis`): a merge-base-recovered baseline, a derived/first-run baseline, or any non-self-authored commit. Backfill blast-radius cap: a first-run/`--since` range beyond ~20 commits or ~50 files forces `full` and explicit user confirmation. Thresholds are tunable defaults; report the chosen mode and the signals that triggered it.
 
@@ -106,12 +106,13 @@ Self-authored test: a commit is self-authored when its author email (`git log -1
 - They are ignored by git, not indexed by `llmdoc/index.md`, and may be deleted at any time.
 - Reuse them only after checking their recorded git revision, resolved range, scope, and unresolved gaps against the current repository.
 - Promote only durable conclusions into tracked `llmdoc/` docs.
+- Cleanup is active, not just permitted: this command garbage-collects consumed reports as part of a successful watermark advance (see the terminal step).
 
 ## Actions
 
 1. Rebuild task context.
    - Read `llmdoc/index.md`, `llmdoc/startup.md`, and the MUST docs it lists.
-   - Proactively read relevant `llmdoc/guides/` and `llmdoc/memory/reflections/` before planning edits.
+   - Proactively read relevant `llmdoc/guides/` and the open entries in `llmdoc/memory/doc-gaps.md` before planning edits.
    - Note any explicit change summary from `$ARGUMENTS`.
 
 2. Resolve sync state and compute the change set.
@@ -124,9 +125,14 @@ Self-authored test: a commit is self-authored when its author email (`git log -1
    - Seed the investigator with the resolved net-diff path list. Persist one scratch report under `.llmdoc-tmp/investigations/` recording the resolved `RANGE_BASE..H` range.
    - Prefer targeted questions over broad repo scans.
 
-5. Reflect only when reflection has value.
-   - Write a reflection into `llmdoc/memory/reflections/` only when the task exposed a workflow failure, repeated mistake, missing signal, or durable process lesson.
-   - Do not force a reflection for routine `fast` updates.
+5. Triage process signals before updating stable docs.
+   - Collect the signals while they are fresh: worker `Process Signals` handoffs, doc defects reported by `/llmdoc:review`, failed commands or tests, user corrections, rework, and doc claims contradicted by evidence.
+   - Route every signal to exactly one exit:
+     - **fix now**: the signal traces to a stable-doc defect (wrong claim, missing routing, ambiguous contract) that is verifiable against the current repository — fold the fix into step 6.
+     - **doc-gap**: real but not fixable in this run — add an actionable entry with closure criteria to `llmdoc/memory/doc-gaps.md`.
+     - **discard**: not attributable to a verifiable doc defect — treat as noise.
+   - Never write narrative memory files. Unverifiable process narratives do not belong anywhere under `llmdoc/`.
+   - Routine `fast` updates with no signals skip this step.
 
 6. Update stable llmdoc with `recorder`.
    - Update only the impacted docs, against the batch-tip state.
@@ -135,16 +141,12 @@ Self-authored test: a commit is self-authored when its author email (`git log -1
    - Reconcile `llmdoc/memory/doc-gaps.md`: close resolved gaps, mark stale gaps, add only actionable new gaps with closure criteria.
    - Keep the cold-start pack (`index.md` + `startup.md` + `must/`) under 24 KiB by default. In a monolith, preserve a small L0 root router and route leaf docs through subsystem indexes.
 
-7. Run the active-memory archive check.
-   - After any new reflection is written, count active memory files under `llmdoc/memory/`, excluding `lessons-learned.md`, `doc-gaps.md`, and anything under `archive/` (`llmdoc/state/` is outside `memory/` and is not counted).
-   - If the count is greater than 5, follow `skills/llmdoc/references/lessons-learned.md`.
-
-8. Synchronize `llmdoc/index.md`.
+7. Synchronize `llmdoc/index.md`.
    - Ensure new and changed docs are discoverable.
    - Do not grow the root index into a monolith-wide leaf inventory; point it at subsystem indexes when direct enumeration would violate the startup budget.
    - Do not index `.llmdoc-tmp/`, and do not index `llmdoc/state/sync.md` as knowledge.
 
-9. Advance the watermark (recorder-owned terminal step).
+8. Advance the watermark (recorder-owned terminal step).
    - Safe-to-advance gate — ALL must hold: the update completed successfully and consumed a committed range; HEAD is attached (`git symbolic-ref -q HEAD` succeeds); and no git operation is in progress. Test the last one by whether the resolved path EXISTS on disk (`git rev-parse --git-path` always prints a path and exits 0 regardless of existence, so check with `[ -f ]`/`[ -d ]`): none of `[ -f "$(git rev-parse --git-path MERGE_HEAD)" ]`, `CHERRY_PICK_HEAD`, `REVERT_HEAD`, `[ -d "$(git rev-parse --git-path rebase-merge)" ]`, `rebase-apply` may exist.
    - If the gate holds, advance `watermark-commit` to the captured `H` (default) or the highest unbroken-prefix tip (partial/batch). Rewrite ONLY these fields, keeping the exact `- watermark-commit: ` line prefix (the reader anchors on it — do not reformat it):
      - `watermark-commit`: the new full commit SHA
@@ -152,5 +154,6 @@ Self-authored test: a commit is self-authored when its author email (`git log -1
      - `updated-at`: ISO-8601 UTC, e.g. `date -u +%Y-%m-%dT%H:%M:%SZ`
      - `updated-by`: `/llmdoc:update`
    - NEVER advance on a `--working-tree-only` run, a failed/partial run, a HEAD-behind-watermark run, or when the safe-to-advance gate fails.
+   - After a successful advance, garbage-collect `.llmdoc-tmp/investigations/`: delete every scratch report whose recorded `Range:` tip is an ancestor of the new watermark (`git merge-base --is-ancestor <tip> <new-watermark>`) — its evidence has been consumed. Also delete reports whose recorded revision no longer exists in the repository. Skip GC entirely on runs that did not advance. Git never tracked these files, so deletion is final and safe.
 
-10. Report the mode used, resolved range(s)/batches and commit count, old → new watermark (or why it did not move), any scratch report or reflection path, the archive action taken or skipped, and the stable docs that changed.
+9. Report the mode used, resolved range(s)/batches and commit count, old → new watermark (or why it did not move), any scratch report path, the signal triage outcome (fixed / doc-gap / discarded), the tmp-GC outcome (reports deleted or GC skipped), and the stable docs that changed.
